@@ -26,7 +26,7 @@
 #----------------------------------------------------------------------------
 
 # Target file name (without extension).
-TARGET = avr_chatter
+TARGET = avr_beagle_bridge
 
 # MCU name
 MCU = atmega32
