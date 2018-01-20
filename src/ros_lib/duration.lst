@@ -1,0 +1,455 @@
+   1               		.file	"duration.cpp"
+   2               	__SP_H__ = 0x3e
+   3               	__SP_L__ = 0x3d
+   4               	__SREG__ = 0x3f
+   5               	__tmp_reg__ = 0
+   6               	__zero_reg__ = 1
+   7               		.text
+   8               	.Ltext0:
+   9               		.cfi_sections	.debug_frame
+  10               	.global	_ZN3ros22normalizeSecNSecSignedERlS0_
+  12               	_ZN3ros22normalizeSecNSecSignedERlS0_:
+  13               	.LFB8:
+  14               		.file 1 "ros_lib/duration.cpp"
+   1:ros_lib/duration.cpp **** /* 
+   2:ros_lib/duration.cpp ****  * Software License Agreement (BSD License)
+   3:ros_lib/duration.cpp ****  *
+   4:ros_lib/duration.cpp ****  * Copyright (c) 2011, Willow Garage, Inc.
+   5:ros_lib/duration.cpp ****  * All rights reserved.
+   6:ros_lib/duration.cpp ****  *
+   7:ros_lib/duration.cpp ****  * Redistribution and use in source and binary forms, with or without
+   8:ros_lib/duration.cpp ****  * modification, are permitted provided that the following conditions
+   9:ros_lib/duration.cpp ****  * are met:
+  10:ros_lib/duration.cpp ****  *
+  11:ros_lib/duration.cpp ****  *  * Redistributions of source code must retain the above copyright
+  12:ros_lib/duration.cpp ****  *    notice, this list of conditions and the following disclaimer.
+  13:ros_lib/duration.cpp ****  *  * Redistributions in binary form must reproduce the above
+  14:ros_lib/duration.cpp ****  *    copyright notice, this list of conditions and the following
+  15:ros_lib/duration.cpp ****  *    disclaimer in the documentation and/or other materials provided
+  16:ros_lib/duration.cpp ****  *    with the distribution.
+  17:ros_lib/duration.cpp ****  *  * Neither the name of Willow Garage, Inc. nor the names of its
+  18:ros_lib/duration.cpp ****  *    contributors may be used to endorse or promote prducts derived
+  19:ros_lib/duration.cpp ****  *    from this software without specific prior written permission.
+  20:ros_lib/duration.cpp ****  *
+  21:ros_lib/duration.cpp ****  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+  22:ros_lib/duration.cpp ****  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+  23:ros_lib/duration.cpp ****  * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
+  24:ros_lib/duration.cpp ****  * FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE
+  25:ros_lib/duration.cpp ****  * COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
+  26:ros_lib/duration.cpp ****  * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
+  27:ros_lib/duration.cpp ****  * BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+  28:ros_lib/duration.cpp ****  * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+  29:ros_lib/duration.cpp ****  * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+  30:ros_lib/duration.cpp ****  * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
+  31:ros_lib/duration.cpp ****  * ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+  32:ros_lib/duration.cpp ****  * POSSIBILITY OF SUCH DAMAGE.
+  33:ros_lib/duration.cpp ****  */
+  34:ros_lib/duration.cpp **** 
+  35:ros_lib/duration.cpp **** #include <math.h>
+  36:ros_lib/duration.cpp **** #include "ros/duration.h"
+  37:ros_lib/duration.cpp **** 
+  38:ros_lib/duration.cpp **** namespace ros
+  39:ros_lib/duration.cpp **** {
+  40:ros_lib/duration.cpp ****   void normalizeSecNSecSigned(long &sec, long &nsec)
+  41:ros_lib/duration.cpp ****   {
+  15               		.loc 1 41 0
+  16               		.cfi_startproc
+  17               	.LVL0:
+  18 0000 0F93      		push r16
+  19               	.LCFI0:
+  20               		.cfi_def_cfa_offset 3
+  21               		.cfi_offset 16, -2
+  22 0002 1F93      		push r17
+  23               	.LCFI1:
+  24               		.cfi_def_cfa_offset 4
+  25               		.cfi_offset 17, -3
+  26               	/* prologue: function */
+  27               	/* frame size = 0 */
+  28               	/* stack size = 2 */
+  29               	.L__stack_usage = 2
+  30 0004 FB01      		movw r30,r22
+  31               	.LBB2:
+  42:ros_lib/duration.cpp ****     long nsec_part = nsec;
+  32               		.loc 1 42 0
+  33 0006 4081      		ld r20,Z
+  34 0008 5181      		ldd r21,Z+1
+  35 000a 6281      		ldd r22,Z+2
+  36 000c 7381      		ldd r23,Z+3
+  37               	.LVL1:
+  43:ros_lib/duration.cpp ****     long sec_part = sec;
+  38               		.loc 1 43 0
+  39 000e DC01      		movw r26,r24
+  40 0010 0D91      		ld r16,X+
+  41 0012 1D91      		ld r17,X+
+  42 0014 2D91      		ld r18,X+
+  43 0016 3C91      		ld r19,X
+  44               	.LVL2:
+  45               	.L2:
+  44:ros_lib/duration.cpp ****      
+  45:ros_lib/duration.cpp ****     while (nsec_part > 1000000000L)
+  46               		.loc 1 45 0 discriminator 1
+  47 0018 4130      		cpi r20,1
+  48 001a BAEC      		ldi r27,-54
+  49 001c 5B07      		cpc r21,r27
+  50 001e BAE9      		ldi r27,-102
+  51 0020 6B07      		cpc r22,r27
+  52 0022 BBE3      		ldi r27,59
+  53 0024 7B07      		cpc r23,r27
+  54 0026 04F0      		brlt .L4
+  46:ros_lib/duration.cpp ****     {
+  47:ros_lib/duration.cpp ****       nsec_part -= 1000000000L;
+  55               		.loc 1 47 0
+  56 0028 5A5C      		subi r21,-54
+  57 002a 6A49      		sbci r22,-102
+  58 002c 7B43      		sbci r23,59
+  59               	.LVL3:
+  48:ros_lib/duration.cpp ****       ++sec_part;
+  60               		.loc 1 48 0
+  61 002e 0F5F      		subi r16,-1
+  62 0030 1F4F      		sbci r17,-1
+  63 0032 2F4F      		sbci r18,-1
+  64 0034 3F4F      		sbci r19,-1
+  65               	.LVL4:
+  66 0036 00C0      		rjmp .L2
+  67               	.L4:
+  49:ros_lib/duration.cpp ****     }
+  50:ros_lib/duration.cpp ****     while (nsec_part < 0)
+  68               		.loc 1 50 0 discriminator 1
+  69 0038 77FF      		sbrs r23,7
+  70 003a 00C0      		rjmp .L7
+  51:ros_lib/duration.cpp ****     {
+  52:ros_lib/duration.cpp ****       nsec_part += 1000000000L;
+  71               		.loc 1 52 0
+  72 003c 5653      		subi r21,54
+  73 003e 6546      		sbci r22,101
+  74 0040 744C      		sbci r23,-60
+  75               	.LVL5:
+  53:ros_lib/duration.cpp ****       --sec_part;
+  76               		.loc 1 53 0
+  77 0042 0150      		subi r16,1
+  78 0044 1109      		sbc r17,__zero_reg__
+  79 0046 2109      		sbc r18,__zero_reg__
+  80 0048 3109      		sbc r19,__zero_reg__
+  81               	.LVL6:
+  82 004a 00C0      		rjmp .L4
+  83               	.L7:
+  54:ros_lib/duration.cpp ****     }
+  55:ros_lib/duration.cpp ****     sec = sec_part;
+  84               		.loc 1 55 0
+  85 004c DC01      		movw r26,r24
+  86 004e 0D93      		st X+,r16
+  87 0050 1D93      		st X+,r17
+  88 0052 2D93      		st X+,r18
+  89 0054 3C93      		st X,r19
+  90 0056 1397      		sbiw r26,3
+  56:ros_lib/duration.cpp ****     nsec = nsec_part;
+  91               		.loc 1 56 0
+  92 0058 4083      		st Z,r20
+  93 005a 5183      		std Z+1,r21
+  94 005c 6283      		std Z+2,r22
+  95 005e 7383      		std Z+3,r23
+  96               	/* epilogue start */
+  97               	.LBE2:
+  57:ros_lib/duration.cpp ****   }
+  98               		.loc 1 57 0
+  99 0060 1F91      		pop r17
+ 100 0062 0F91      		pop r16
+ 101               	.LVL7:
+ 102 0064 0895      		ret
+ 103               		.cfi_endproc
+ 104               	.LFE8:
+ 106               	.global	_ZN3ros8DurationpLERKS0_
+ 108               	_ZN3ros8DurationpLERKS0_:
+ 109               	.LFB9:
+  58:ros_lib/duration.cpp **** 
+  59:ros_lib/duration.cpp ****   Duration& Duration::operator+=(const Duration &rhs)
+  60:ros_lib/duration.cpp ****   {
+ 110               		.loc 1 60 0
+ 111               		.cfi_startproc
+ 112               	.LVL8:
+ 113 0066 0F93      		push r16
+ 114               	.LCFI2:
+ 115               		.cfi_def_cfa_offset 3
+ 116               		.cfi_offset 16, -2
+ 117 0068 1F93      		push r17
+ 118               	.LCFI3:
+ 119               		.cfi_def_cfa_offset 4
+ 120               		.cfi_offset 17, -3
+ 121 006a CF93      		push r28
+ 122               	.LCFI4:
+ 123               		.cfi_def_cfa_offset 5
+ 124               		.cfi_offset 28, -4
+ 125 006c DF93      		push r29
+ 126               	.LCFI5:
+ 127               		.cfi_def_cfa_offset 6
+ 128               		.cfi_offset 29, -5
+ 129               	/* prologue: function */
+ 130               	/* frame size = 0 */
+ 131               	/* stack size = 4 */
+ 132               	.L__stack_usage = 4
+ 133 006e EC01      		movw r28,r24
+ 134 0070 FB01      		movw r30,r22
+  61:ros_lib/duration.cpp ****     sec += rhs.sec;
+ 135               		.loc 1 61 0
+ 136 0072 4881      		ld r20,Y
+ 137 0074 5981      		ldd r21,Y+1
+ 138 0076 6A81      		ldd r22,Y+2
+ 139 0078 7B81      		ldd r23,Y+3
+ 140 007a 0081      		ld r16,Z
+ 141 007c 1181      		ldd r17,Z+1
+ 142 007e 2281      		ldd r18,Z+2
+ 143 0080 3381      		ldd r19,Z+3
+ 144 0082 400F      		add r20,r16
+ 145 0084 511F      		adc r21,r17
+ 146 0086 621F      		adc r22,r18
+ 147 0088 731F      		adc r23,r19
+ 148 008a 4883      		st Y,r20
+ 149 008c 5983      		std Y+1,r21
+ 150 008e 6A83      		std Y+2,r22
+ 151 0090 7B83      		std Y+3,r23
+  62:ros_lib/duration.cpp ****     nsec += rhs.nsec;
+ 152               		.loc 1 62 0
+ 153 0092 4C81      		ldd r20,Y+4
+ 154 0094 5D81      		ldd r21,Y+5
+ 155 0096 6E81      		ldd r22,Y+6
+ 156 0098 7F81      		ldd r23,Y+7
+ 157 009a 0481      		ldd r16,Z+4
+ 158 009c 1581      		ldd r17,Z+5
+ 159 009e 2681      		ldd r18,Z+6
+ 160 00a0 3781      		ldd r19,Z+7
+ 161 00a2 400F      		add r20,r16
+ 162 00a4 511F      		adc r21,r17
+ 163 00a6 621F      		adc r22,r18
+ 164 00a8 731F      		adc r23,r19
+ 165 00aa 4C83      		std Y+4,r20
+ 166 00ac 5D83      		std Y+5,r21
+ 167 00ae 6E83      		std Y+6,r22
+ 168 00b0 7F83      		std Y+7,r23
+  63:ros_lib/duration.cpp ****     normalizeSecNSecSigned(sec, nsec);
+ 169               		.loc 1 63 0
+ 170 00b2 BC01      		movw r22,r24
+ 171               	.LVL9:
+ 172 00b4 6C5F      		subi r22,-4
+ 173 00b6 7F4F      		sbci r23,-1
+ 174 00b8 0E94 0000 		call _ZN3ros22normalizeSecNSecSignedERlS0_
+ 175               	.LVL10:
+  64:ros_lib/duration.cpp ****     return *this;
+  65:ros_lib/duration.cpp ****   }
+ 176               		.loc 1 65 0
+ 177 00bc CE01      		movw r24,r28
+ 178               	/* epilogue start */
+ 179 00be DF91      		pop r29
+ 180 00c0 CF91      		pop r28
+ 181               	.LVL11:
+ 182 00c2 1F91      		pop r17
+ 183 00c4 0F91      		pop r16
+ 184 00c6 0895      		ret
+ 185               		.cfi_endproc
+ 186               	.LFE9:
+ 188               	.global	_ZN3ros8DurationmIERKS0_
+ 190               	_ZN3ros8DurationmIERKS0_:
+ 191               	.LFB10:
+  66:ros_lib/duration.cpp **** 
+  67:ros_lib/duration.cpp ****   Duration& Duration::operator-=(const Duration &rhs){
+ 192               		.loc 1 67 0
+ 193               		.cfi_startproc
+ 194               	.LVL12:
+ 195 00c8 0F93      		push r16
+ 196               	.LCFI6:
+ 197               		.cfi_def_cfa_offset 3
+ 198               		.cfi_offset 16, -2
+ 199 00ca 1F93      		push r17
+ 200               	.LCFI7:
+ 201               		.cfi_def_cfa_offset 4
+ 202               		.cfi_offset 17, -3
+ 203 00cc CF93      		push r28
+ 204               	.LCFI8:
+ 205               		.cfi_def_cfa_offset 5
+ 206               		.cfi_offset 28, -4
+ 207 00ce DF93      		push r29
+ 208               	.LCFI9:
+ 209               		.cfi_def_cfa_offset 6
+ 210               		.cfi_offset 29, -5
+ 211               	/* prologue: function */
+ 212               	/* frame size = 0 */
+ 213               	/* stack size = 4 */
+ 214               	.L__stack_usage = 4
+ 215 00d0 EC01      		movw r28,r24
+ 216 00d2 FB01      		movw r30,r22
+  68:ros_lib/duration.cpp ****     sec += -rhs.sec;
+ 217               		.loc 1 68 0
+ 218 00d4 4881      		ld r20,Y
+ 219 00d6 5981      		ldd r21,Y+1
+ 220 00d8 6A81      		ldd r22,Y+2
+ 221 00da 7B81      		ldd r23,Y+3
+ 222 00dc 0081      		ld r16,Z
+ 223 00de 1181      		ldd r17,Z+1
+ 224 00e0 2281      		ldd r18,Z+2
+ 225 00e2 3381      		ldd r19,Z+3
+ 226 00e4 401B      		sub r20,r16
+ 227 00e6 510B      		sbc r21,r17
+ 228 00e8 620B      		sbc r22,r18
+ 229 00ea 730B      		sbc r23,r19
+ 230 00ec 4883      		st Y,r20
+ 231 00ee 5983      		std Y+1,r21
+ 232 00f0 6A83      		std Y+2,r22
+ 233 00f2 7B83      		std Y+3,r23
+  69:ros_lib/duration.cpp ****     nsec += -rhs.nsec;
+ 234               		.loc 1 69 0
+ 235 00f4 4C81      		ldd r20,Y+4
+ 236 00f6 5D81      		ldd r21,Y+5
+ 237 00f8 6E81      		ldd r22,Y+6
+ 238 00fa 7F81      		ldd r23,Y+7
+ 239 00fc 0481      		ldd r16,Z+4
+ 240 00fe 1581      		ldd r17,Z+5
+ 241 0100 2681      		ldd r18,Z+6
+ 242 0102 3781      		ldd r19,Z+7
+ 243 0104 401B      		sub r20,r16
+ 244 0106 510B      		sbc r21,r17
+ 245 0108 620B      		sbc r22,r18
+ 246 010a 730B      		sbc r23,r19
+ 247 010c 4C83      		std Y+4,r20
+ 248 010e 5D83      		std Y+5,r21
+ 249 0110 6E83      		std Y+6,r22
+ 250 0112 7F83      		std Y+7,r23
+  70:ros_lib/duration.cpp ****     normalizeSecNSecSigned(sec, nsec);
+ 251               		.loc 1 70 0
+ 252 0114 BC01      		movw r22,r24
+ 253               	.LVL13:
+ 254 0116 6C5F      		subi r22,-4
+ 255 0118 7F4F      		sbci r23,-1
+ 256 011a 0E94 0000 		call _ZN3ros22normalizeSecNSecSignedERlS0_
+ 257               	.LVL14:
+  71:ros_lib/duration.cpp ****     return *this;
+  72:ros_lib/duration.cpp ****   }
+ 258               		.loc 1 72 0
+ 259 011e CE01      		movw r24,r28
+ 260               	/* epilogue start */
+ 261 0120 DF91      		pop r29
+ 262 0122 CF91      		pop r28
+ 263               	.LVL15:
+ 264 0124 1F91      		pop r17
+ 265 0126 0F91      		pop r16
+ 266 0128 0895      		ret
+ 267               		.cfi_endproc
+ 268               	.LFE10:
+ 270               	.global	__floatsisf
+ 271               	.global	__mulsf3
+ 272               	.global	__fixsfsi
+ 273               	.global	_ZN3ros8DurationmLEd
+ 275               	_ZN3ros8DurationmLEd:
+ 276               	.LFB11:
+  73:ros_lib/duration.cpp **** 
+  74:ros_lib/duration.cpp ****   Duration& Duration::operator*=(double scale){
+ 277               		.loc 1 74 0
+ 278               		.cfi_startproc
+ 279               	.LVL16:
+ 280 012a CF92      		push r12
+ 281               	.LCFI10:
+ 282               		.cfi_def_cfa_offset 3
+ 283               		.cfi_offset 12, -2
+ 284 012c DF92      		push r13
+ 285               	.LCFI11:
+ 286               		.cfi_def_cfa_offset 4
+ 287               		.cfi_offset 13, -3
+ 288 012e EF92      		push r14
+ 289               	.LCFI12:
+ 290               		.cfi_def_cfa_offset 5
+ 291               		.cfi_offset 14, -4
+ 292 0130 FF92      		push r15
+ 293               	.LCFI13:
+ 294               		.cfi_def_cfa_offset 6
+ 295               		.cfi_offset 15, -5
+ 296 0132 CF93      		push r28
+ 297               	.LCFI14:
+ 298               		.cfi_def_cfa_offset 7
+ 299               		.cfi_offset 28, -6
+ 300 0134 DF93      		push r29
+ 301               	.LCFI15:
+ 302               		.cfi_def_cfa_offset 8
+ 303               		.cfi_offset 29, -7
+ 304               	/* prologue: function */
+ 305               	/* frame size = 0 */
+ 306               	/* stack size = 6 */
+ 307               	.L__stack_usage = 6
+ 308 0136 EC01      		movw r28,r24
+ 309 0138 6A01      		movw r12,r20
+ 310 013a 7B01      		movw r14,r22
+  75:ros_lib/duration.cpp ****     sec *= scale;
+ 311               		.loc 1 75 0
+ 312 013c 6881      		ld r22,Y
+ 313 013e 7981      		ldd r23,Y+1
+ 314 0140 8A81      		ldd r24,Y+2
+ 315 0142 9B81      		ldd r25,Y+3
+ 316 0144 0E94 0000 		call __floatsisf
+ 317               	.LVL17:
+ 318 0148 A701      		movw r20,r14
+ 319 014a 9601      		movw r18,r12
+ 320 014c 0E94 0000 		call __mulsf3
+ 321               	.LVL18:
+ 322 0150 0E94 0000 		call __fixsfsi
+ 323               	.LVL19:
+ 324 0154 6883      		st Y,r22
+ 325 0156 7983      		std Y+1,r23
+ 326 0158 8A83      		std Y+2,r24
+ 327 015a 9B83      		std Y+3,r25
+  76:ros_lib/duration.cpp ****     nsec *= scale;
+ 328               		.loc 1 76 0
+ 329 015c 6C81      		ldd r22,Y+4
+ 330 015e 7D81      		ldd r23,Y+5
+ 331 0160 8E81      		ldd r24,Y+6
+ 332 0162 9F81      		ldd r25,Y+7
+ 333 0164 0E94 0000 		call __floatsisf
+ 334               	.LVL20:
+ 335 0168 A701      		movw r20,r14
+ 336 016a 9601      		movw r18,r12
+ 337 016c 0E94 0000 		call __mulsf3
+ 338               	.LVL21:
+ 339 0170 0E94 0000 		call __fixsfsi
+ 340               	.LVL22:
+ 341 0174 6C83      		std Y+4,r22
+ 342 0176 7D83      		std Y+5,r23
+ 343 0178 8E83      		std Y+6,r24
+ 344 017a 9F83      		std Y+7,r25
+  77:ros_lib/duration.cpp ****     normalizeSecNSecSigned(sec, nsec);
+ 345               		.loc 1 77 0
+ 346 017c BE01      		movw r22,r28
+ 347 017e 6C5F      		subi r22,-4
+ 348 0180 7F4F      		sbci r23,-1
+ 349 0182 CE01      		movw r24,r28
+ 350 0184 0E94 0000 		call _ZN3ros22normalizeSecNSecSignedERlS0_
+ 351               	.LVL23:
+  78:ros_lib/duration.cpp ****     return *this;
+  79:ros_lib/duration.cpp ****   }
+ 352               		.loc 1 79 0
+ 353 0188 CE01      		movw r24,r28
+ 354               	/* epilogue start */
+ 355 018a DF91      		pop r29
+ 356 018c CF91      		pop r28
+ 357               	.LVL24:
+ 358 018e FF90      		pop r15
+ 359 0190 EF90      		pop r14
+ 360 0192 DF90      		pop r13
+ 361 0194 CF90      		pop r12
+ 362               	.LVL25:
+ 363 0196 0895      		ret
+ 364               		.cfi_endproc
+ 365               	.LFE11:
+ 367               	.Letext0:
+ 368               		.file 2 "ros_lib/ros/duration.h"
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 duration.cpp
+     /tmp/ccX9jsoO.s:2      *ABS*:000000000000003e __SP_H__
+     /tmp/ccX9jsoO.s:3      *ABS*:000000000000003d __SP_L__
+     /tmp/ccX9jsoO.s:4      *ABS*:000000000000003f __SREG__
+     /tmp/ccX9jsoO.s:5      *ABS*:0000000000000000 __tmp_reg__
+     /tmp/ccX9jsoO.s:6      *ABS*:0000000000000001 __zero_reg__
+     /tmp/ccX9jsoO.s:12     .text:0000000000000000 _ZN3ros22normalizeSecNSecSignedERlS0_
+     /tmp/ccX9jsoO.s:108    .text:0000000000000066 _ZN3ros8DurationpLERKS0_
+     /tmp/ccX9jsoO.s:190    .text:00000000000000c8 _ZN3ros8DurationmIERKS0_
+     /tmp/ccX9jsoO.s:275    .text:000000000000012a _ZN3ros8DurationmLEd
+
+UNDEFINED SYMBOLS
+__floatsisf
+__mulsf3
+__fixsfsi
